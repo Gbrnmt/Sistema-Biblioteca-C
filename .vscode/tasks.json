@@ -1,6 +1,29 @@
 {
     "tasks": [
         {
+            "type": "shell",
+            "label": "Compilar Biblioteca",
+            "command": "C:\\msys64\\ucrt64\\bin\\gcc.exe",
+            "args": [
+                "src/main.c",
+                "src/livro.c",
+                "src/usuario.c",
+                "-Iinclude",
+                "-o",
+                "biblioteca.exe"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
+        },
+        {
             "type": "cppbuild",
             "label": "C/C++: cl.exe arquivo de build ativo",
             "command": "cl.exe",
