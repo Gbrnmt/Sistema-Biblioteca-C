@@ -1,7 +1,6 @@
 #ifndef LIVRO_H
 #define LIVRO_H
 
-// Quantidade máxima de livros que o sistema pode guardar
 #define MAX_LIVROS 100
 
 // Estrutura que representa um livro
@@ -13,10 +12,18 @@ typedef struct {
     int quantidade;
 } Livro;
 
-// Função para cadastrar um livro
+// Cadastro e listagem
 void cadastrarLivro(Livro livros[], int *total);
-
-// Função para listar os livros
 void listarLivros(Livro livros[], int total);
+
+// Busca
+void buscarLivro(Livro livros[], int total);
+
+// Alterar quantidade
+void alterarQuantidade(Livro livros[], int total, int codigo, int quantidade);
+
+// Arquivo
+void salvarLivros(Livro livros[], int total);
+int carregarLivros(Livro livros[]);
 
 #endif

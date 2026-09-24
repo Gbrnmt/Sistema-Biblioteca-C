@@ -4,21 +4,18 @@
 
 int main() {
 
-    // Array que vai armazenar os livros
     Livro livros[MAX_LIVROS];
 
-    // Array que vai armazenar os usuários
     Usuario usuarios[MAX_USUARIOS];
 
-    // Quantidade atual de livros cadastrados
     int totalLivros = 0;
-
-    // Quantidade atual de usuários cadastrados
     int totalUsuarios = 0;
 
     int opcao;
 
-    // O menu continua aparecendo até o usuário escolher 0
+    // Carrega os livros salvos no arquivo
+    totalLivros = carregarLivros(livros);
+
     do {
 
         printf("\n================================\n");
@@ -27,8 +24,9 @@ int main() {
 
         printf("1 - Cadastrar livro\n");
         printf("2 - Listar livros\n");
-        printf("3 - Cadastrar usuario\n");
-        printf("4 - Listar usuarios\n");
+        printf("3 - Buscar livro\n");
+        printf("4 - Cadastrar usuario\n");
+        printf("5 - Listar usuarios\n");
         printf("0 - Sair\n");
 
         printf("================================\n");
@@ -36,34 +34,52 @@ int main() {
 
         scanf("%d", &opcao);
 
-        // Verifica qual opção foi escolhida
         switch (opcao) {
 
             case 1:
-                // Chama a função de cadastro de livros
+
                 cadastrarLivro(livros, &totalLivros);
+
+                // Salva depois do cadastro
+                salvarLivros(livros, totalLivros);
+
                 break;
 
             case 2:
-                // Chama a função de listagem de livros
+
                 listarLivros(livros, totalLivros);
+
                 break;
 
             case 3:
-                // Chama a função de cadastro de usuários
-                cadastrarUsuario(usuarios, &totalUsuarios);
+
+                buscarLivro(livros, totalLivros);
+
                 break;
 
             case 4:
-                // Chama a função de listagem de usuários
+
+                cadastrarUsuario(usuarios, &totalUsuarios);
+
+                break;
+
+            case 5:
+
                 listarUsuarios(usuarios, totalUsuarios);
+
                 break;
 
             case 0:
+
+                // Salva antes de sair
+                salvarLivros(livros, totalLivros);
+
                 printf("\nEncerrando o sistema...\n");
+
                 break;
 
             default:
+
                 printf("\nOpcao invalida!\n");
         }
 
