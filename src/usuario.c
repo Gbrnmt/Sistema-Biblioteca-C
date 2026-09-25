@@ -2,26 +2,39 @@
 #include <string.h>
 #include "usuario.h"
 
-
 // Cadastra um novo usuário
-void cadastrarUsuario(Usuario usuarios[], int *total) {
+void cadastrarUsuario(
+    Usuario usuarios[],
+    int *total
+) {
 
     if (*total >= MAX_USUARIOS) {
+
         printf("\nLimite de usuarios atingido!\n");
+
         return;
     }
 
     printf("\n=== CADASTRAR USUARIO ===\n");
 
     printf("Matricula: ");
-    scanf("%d", &usuarios[*total].matricula);
+
+    scanf(
+        "%d",
+        &usuarios[*total].matricula
+    );
 
     // Verifica se a matrícula já existe
     for (int i = 0; i < *total; i++) {
 
-        if (usuarios[i].matricula == usuarios[*total].matricula) {
+        if (
+            usuarios[i].matricula ==
+            usuarios[*total].matricula
+        ) {
 
-            printf("Essa matricula ja existe!\n");
+            printf(
+                "\nEssa matricula ja existe!\n"
+            );
 
             return;
         }
@@ -30,107 +43,174 @@ void cadastrarUsuario(Usuario usuarios[], int *total) {
     getchar();
 
     printf("Nome: ");
-    fgets(usuarios[*total].nome, 100, stdin);
+
+    fgets(
+        usuarios[*total].nome,
+        100,
+        stdin
+    );
 
     usuarios[*total].nome[
-        strcspn(usuarios[*total].nome, "\n")
+        strcspn(
+            usuarios[*total].nome,
+            "\n"
+        )
     ] = '\0';
 
     if (strlen(usuarios[*total].nome) == 0) {
 
-        printf("Nome invalido!\n");
+        printf("\nNome invalido!\n");
 
         return;
     }
 
     printf("Curso: ");
-    fgets(usuarios[*total].curso, 100, stdin);
+
+    fgets(
+        usuarios[*total].curso,
+        100,
+        stdin
+    );
 
     usuarios[*total].curso[
-        strcspn(usuarios[*total].curso, "\n")
+        strcspn(
+            usuarios[*total].curso,
+            "\n"
+        )
     ] = '\0';
 
     if (strlen(usuarios[*total].curso) == 0) {
 
-        printf("Curso invalido!\n");
+        printf("\nCurso invalido!\n");
 
         return;
     }
 
     *total = *total + 1;
 
-    printf("\nUsuario cadastrado com sucesso!\n");
+    printf(
+        "\nUsuario cadastrado com sucesso!\n"
+    );
 }
 
-
 // Lista os usuários
-void listarUsuarios(Usuario usuarios[], int total) {
+void listarUsuarios(
+    Usuario usuarios[],
+    int total
+) {
 
     if (total == 0) {
 
-        printf("\nNenhum usuario cadastrado.\n");
+        printf(
+            "\nNenhum usuario cadastrado.\n"
+        );
 
         return;
     }
 
-    printf("\n=== USUARIOS CADASTRADOS ===\n");
+    printf(
+        "\n=== USUARIOS CADASTRADOS ===\n"
+    );
 
     for (int i = 0; i < total; i++) {
 
         printf("\nUsuario %d\n", i + 1);
 
-        printf("Matricula: %d\n", usuarios[i].matricula);
-        printf("Nome: %s\n", usuarios[i].nome);
-        printf("Curso: %s\n", usuarios[i].curso);
+        printf(
+            "Matricula: %d\n",
+            usuarios[i].matricula
+        );
+
+        printf(
+            "Nome: %s\n",
+            usuarios[i].nome
+        );
+
+        printf(
+            "Curso: %s\n",
+            usuarios[i].curso
+        );
     }
 }
 
-
 // Busca usuário pela matrícula
-void buscarUsuario(Usuario usuarios[], int total) {
+void buscarUsuario(
+    Usuario usuarios[],
+    int total
+) {
 
     if (total == 0) {
 
-        printf("\nNenhum usuario cadastrado.\n");
+        printf(
+            "\nNenhum usuario cadastrado.\n"
+        );
 
         return;
     }
 
     int matricula;
 
-    printf("\n=== BUSCAR USUARIO ===\n");
+    printf(
+        "\n=== BUSCAR USUARIO ===\n"
+    );
 
     printf("Digite a matricula: ");
+
     scanf("%d", &matricula);
 
     for (int i = 0; i < total; i++) {
 
-        if (usuarios[i].matricula == matricula) {
+        if (
+            usuarios[i].matricula ==
+            matricula
+        ) {
 
-            printf("\nUsuario encontrado!\n");
+            printf(
+                "\nUsuario encontrado!\n"
+            );
 
-            printf("Matricula: %d\n", usuarios[i].matricula);
-            printf("Nome: %s\n", usuarios[i].nome);
-            printf("Curso: %s\n", usuarios[i].curso);
+            printf(
+                "Matricula: %d\n",
+                usuarios[i].matricula
+            );
+
+            printf(
+                "Nome: %s\n",
+                usuarios[i].nome
+            );
+
+            printf(
+                "Curso: %s\n",
+                usuarios[i].curso
+            );
 
             return;
         }
     }
 
-    printf("\nUsuario nao encontrado.\n");
+    printf(
+        "\nUsuario nao encontrado.\n"
+    );
 }
 
-
-// Salva usuários no arquivo
-void salvarUsuarios(Usuario usuarios[], int total) {
+// Salva os usuários no arquivo
+void salvarUsuarios(
+    Usuario usuarios[],
+    int total
+) {
 
     FILE *arquivo;
 
-    arquivo = fopen("dados/usuarios.txt", "w");
+    arquivo = fopen(
+        "dados/usuarios.txt",
+        "w"
+    );
 
     if (arquivo == NULL) {
 
-        printf("Erro ao salvar usuarios.\n");
+        printf(
+            "\nErro ao salvar usuarios.\n"
+        );
 
         return;
     }
@@ -149,16 +229,19 @@ void salvarUsuarios(Usuario usuarios[], int total) {
     fclose(arquivo);
 }
 
-
-// Carrega usuários do arquivo
-int carregarUsuarios(Usuario usuarios[]) {
+// Carrega os usuários do arquivo
+int carregarUsuarios(
+    Usuario usuarios[]
+) {
 
     FILE *arquivo;
 
-    arquivo = fopen("dados/usuarios.txt", "r");
+    arquivo = fopen(
+        "dados/usuarios.txt",
+        "r"
+    );
 
     if (arquivo == NULL) {
-
         return 0;
     }
 
