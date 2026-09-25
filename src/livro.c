@@ -27,14 +27,12 @@ void cadastrarLivro(Livro livros[], int *total) {
 
     printf("Titulo: ");
     fgets(livros[*total].titulo, 100, stdin);
-
     livros[*total].titulo[
         strcspn(livros[*total].titulo, "\n")
     ] = '\0';
 
     printf("Autor: ");
     fgets(livros[*total].autor, 100, stdin);
-
     livros[*total].autor[
         strcspn(livros[*total].autor, "\n")
     ] = '\0';
@@ -60,7 +58,6 @@ void cadastrarLivro(Livro livros[], int *total) {
     printf("\nLivro cadastrado com sucesso!\n");
 }
 
-
 // Lista todos os livros
 void listarLivros(Livro livros[], int total) {
 
@@ -74,16 +71,20 @@ void listarLivros(Livro livros[], int total) {
     for (int i = 0; i < total; i++) {
 
         printf("\nLivro %d\n", i + 1);
+
         printf("Codigo: %d\n", livros[i].codigo);
+
         printf("Titulo: %s\n", livros[i].titulo);
+
         printf("Autor: %s\n", livros[i].autor);
+
         printf("Ano: %d\n", livros[i].ano);
+
         printf("Quantidade: %d\n", livros[i].quantidade);
     }
 }
 
-
-// Busca livro por titulo ou autor
+// Busca livro por título ou autor
 void buscarLivro(Livro livros[], int total) {
 
     if (total == 0) {
@@ -92,17 +93,23 @@ void buscarLivro(Livro livros[], int total) {
     }
 
     int opcao;
+
     char busca[100];
 
     printf("\n=== BUSCAR LIVRO ===\n");
+
     printf("1 - Buscar por titulo\n");
+
     printf("2 - Buscar por autor\n");
+
     printf("Escolha: ");
+
     scanf("%d", &opcao);
 
     getchar();
 
     printf("Digite o que deseja buscar: ");
+
     fgets(busca, 100, stdin);
 
     busca[strcspn(busca, "\n")] = '\0';
@@ -116,10 +123,15 @@ void buscarLivro(Livro livros[], int total) {
             if (strstr(livros[i].titulo, busca) != NULL) {
 
                 printf("\nCodigo: %d\n", livros[i].codigo);
+
                 printf("Titulo: %s\n", livros[i].titulo);
+
                 printf("Autor: %s\n", livros[i].autor);
+
                 printf("Ano: %d\n", livros[i].ano);
-                printf("Quantidade: %d\n", livros[i].quantidade);
+
+                printf("Quantidade: %d\n",
+                       livros[i].quantidade);
 
                 encontrou = 1;
             }
@@ -129,10 +141,15 @@ void buscarLivro(Livro livros[], int total) {
             if (strstr(livros[i].autor, busca) != NULL) {
 
                 printf("\nCodigo: %d\n", livros[i].codigo);
+
                 printf("Titulo: %s\n", livros[i].titulo);
+
                 printf("Autor: %s\n", livros[i].autor);
+
                 printf("Ano: %d\n", livros[i].ano);
-                printf("Quantidade: %d\n", livros[i].quantidade);
+
+                printf("Quantidade: %d\n",
+                       livros[i].quantidade);
 
                 encontrou = 1;
             }
@@ -140,6 +157,7 @@ void buscarLivro(Livro livros[], int total) {
         } else {
 
             printf("\nOpcao invalida!\n");
+
             return;
         }
     }
@@ -148,7 +166,6 @@ void buscarLivro(Livro livros[], int total) {
         printf("\nNenhum livro encontrado.\n");
     }
 }
-
 
 // Altera a quantidade de um livro
 void alterarQuantidade(
@@ -162,13 +179,13 @@ void alterarQuantidade(
 
         if (livros[i].codigo == codigo) {
 
-            livros[i].quantidade = livros[i].quantidade + quantidade;
+            livros[i].quantidade =
+                livros[i].quantidade + quantidade;
 
             return;
         }
     }
 }
-
 
 // Salva os livros no arquivo
 void salvarLivros(Livro livros[], int total) {
@@ -178,7 +195,9 @@ void salvarLivros(Livro livros[], int total) {
     arquivo = fopen("dados/livros.txt", "w");
 
     if (arquivo == NULL) {
+
         printf("Erro ao salvar livros.\n");
+
         return;
     }
 
@@ -197,7 +216,6 @@ void salvarLivros(Livro livros[], int total) {
 
     fclose(arquivo);
 }
-
 
 // Carrega os livros do arquivo
 int carregarLivros(Livro livros[]) {
