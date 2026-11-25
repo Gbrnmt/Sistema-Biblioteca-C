@@ -3,6 +3,8 @@
 #include <string.h>
 #include "livro.h"
 #include "utils.h"
+#include "ordenacao.h"
+#include "busca.h"
 
 #define ARQUIVO_LIVROS_TXT "dados/livros.txt"
 
@@ -110,19 +112,16 @@ void listarLivros(const ListaLivros *lista) {
     }
     printf("\nTotal: %d livro(s)\n", lista->total);
 }
-// ---------------------------------------------------------------
-// Busca
-// ---------------------------------------------------------------
-
-// Busca sequencial por codigo
-int buscarLivroPorCodigo(const ListaLivros *lista, int codigo) {
-    for (int i = 0; i < lista->total; i++) {
-        if (lista->dados[i].codigo == codigo) {
-            return i;
-        }
+// A busca binaria so funciona com o acervo ordenado pelo mesmo campo.
+// Se ainda nao estiver, ordena antes (insertion sort).
+static void garantirOrdem(ListaLivros *lista, CriterioLivro criterio) {
+    if (lista->ordenadoPor != (int)criterio) {
+        printf("(Acervo sera ordenado por %s antes da busca binaria)\n",
+               nomeCriterio(criterio));
+        ordenarListaLivros(lista, ORD_INSERTION, criterio);
     }
-    return -1;
 }
+
 void buscarLivro(ListaLivros *lista) {
     if (lista->total == 0) {
         printf("\nNenhum livro cadastrado.\n");
@@ -133,9 +132,11 @@ void buscarLivro(ListaLivros *lista) {
     printf("1 - Por titulo (parcial, sequencial)\n");
     printf("2 - Por autor (parcial, sequencial)\n");
     printf("3 - Por codigo (sequencial)\n");
+    printf("4 - Por codigo (binaria)\n");
+    printf("5 - Por titulo exato (binaria)\n");
     printf("0 - Voltar\n");
 
-    int opcao = lerInteiro("Escolha: ", 0, 3);
+    int opcao = lerInteiro("Escolha: ", 0, 5);
     if (opcao == 0) {
         return;
     }
@@ -157,14 +158,36 @@ void buscarLivro(ListaLivros *lista) {
                 encontrados++;
             }
         }
-    } else {
+    } else if (opcao == 3 || opcao == 4) {
         int codigo = lerInteiro("Codigo: ", 1, 2000000000);
-        int indice = buscarLivroPorCodigo(lista, codigo);
+        int indice;
+
+        if (opcao == 3) {
+            indice = buscarLivroPorCodigo(lista, codigo);
+        } else {
+            garantirOrdem(lista, CRIT_CODIGO);
+            indice = buscaBinariaLivroPorCodigo(lista->dados, lista->total, codigo);
+        }
 
         if (indice != -1) {
             imprimirCabecalho();
             imprimirLivro(&lista->dados[indice]);
             encontrados = 1;
+        }
+    } else {
+        lerTexto("Titulo exato: ", texto, TAM_TEXTO);
+        garantirOrdem(lista, CRIT_TITULO);
+
+        // a busca binaria acha a primeira ocorrencia; as repetidas vem em seguida
+        int i = buscaBinariaLivroPorTitulo(lista->dados, lista->total, texto);
+        while (i != -1 && i < lista->total &&
+               compararTexto(lista->dados[i].titulo, texto) == 0) {
+            if (encontrados == 0) {
+                imprimirCabecalho();
+            }
+            imprimirLivro(&lista->dados[i]);
+            encontrados++;
+            i++;
         }
     }
 
