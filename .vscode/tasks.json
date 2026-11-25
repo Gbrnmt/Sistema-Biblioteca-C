@@ -28,11 +28,11 @@
             "label": "C/C++: cl.exe arquivo de build ativo",
             "command": "cl.exe",
             "args": [
-                "/Zi",
-                "/EHsc",
-                "/nologo",
-                "/Fe${fileDirname}\\${fileBasenameNoExtension}.exe",
-                "${file}"
+                "-Wall", "-Wextra", "-Iinclude",
+                "src/main.c", "src/utils.c", "src/datas.c", "src/livro.c",
+                "src/ordenacao.c", "src/busca.c", "src/desempenho.c",
+                "src/usuario.c", "src/emprestimo.c", "src/arquivo.c",
+                "-o", "biblioteca.exe"
             ],
             "options": {
                 "cwd": "${fileDirname}"
