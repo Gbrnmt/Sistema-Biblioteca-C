@@ -1,40 +1,38 @@
 #ifndef USUARIO_H
 #define USUARIO_H
 
-#define MAX_USUARIOS 100
+#include "utils.h"
 
 typedef struct {
-
     int matricula;
-
-    char nome[100];
-
-    char curso[100];
-
+    char nome[TAM_TEXTO];
+    char curso[TAM_TEXTO];
 } Usuario;
 
-void cadastrarUsuario(
-    Usuario usuarios[],
-    int *total
-);
+// Array dinamico de usuarios (cresce com realloc)
+typedef struct {
+    Usuario *dados;
+    int total;
+    int capacidade;
+} ListaUsuarios;
 
-void listarUsuarios(
-    Usuario usuarios[],
-    int total
-);
+void iniciarListaUsuarios(ListaUsuarios *lista);
+void liberarListaUsuarios(ListaUsuarios *lista);
 
-void buscarUsuario(
-    Usuario usuarios[],
-    int total
-);
+// Adiciona sem interacao. Retorna 1 = ok, 0 = matricula ja existe, -1 = sem memoria
+int adicionarUsuario(ListaUsuarios *lista, Usuario novo);
 
-void salvarUsuarios(
-    Usuario usuarios[],
-    int total
-);
+void cadastrarUsuario(ListaUsuarios *lista);
+void listarUsuarios(const ListaUsuarios *lista);
 
-int carregarUsuarios(
-    Usuario usuarios[]
-);
+// Busca sequencial por matricula. Retorna o indice ou -1
+int buscarUsuarioPorMatricula(const ListaUsuarios *lista, int matricula);
+
+// Menu "Buscar usuario" (pede a matricula e mostra os dados)
+void buscarUsuario(const ListaUsuarios *lista);
+
+// Arquivo texto (dados/usuarios.txt)
+int salvarUsuarios(const ListaUsuarios *lista);
+int carregarUsuarios(ListaUsuarios *lista);   // retorna quantos leu
 
 #endif
