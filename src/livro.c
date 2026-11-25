@@ -172,3 +172,64 @@ void buscarLivro(ListaLivros *lista) {
         printf("\nNenhum livro encontrado.\n");
     }
 }
+// ---------------------------------------------------------------
+// Quantidade
+// ---------------------------------------------------------------
+
+int alterarQuantidade(ListaLivros *lista, int codigo, int delta) {
+    int i = buscarLivroPorCodigo(lista, codigo);
+    if (i == -1) {
+        return 0;
+    }
+    if (lista->dados[i].quantidade + delta < 0) {
+        return 0;
+    }
+
+    lista->dados[i].quantidade += delta;
+    return 1;
+}
+// ---------------------------------------------------------------
+// Arquivo texto
+// ---------------------------------------------------------------
+
+int salvarLivros(const ListaLivros *lista) {
+    FILE *arquivo = fopen(ARQUIVO_LIVROS_TXT, "w");
+    if (arquivo == NULL) {
+        printf("Erro ao salvar livros.\n");
+        return 0;
+    }
+
+    for (int i = 0; i < lista->total; i++) {
+        fprintf(arquivo, "%d;%s;%s;%d;%d\n",
+                lista->dados[i].codigo, lista->dados[i].titulo, lista->dados[i].autor,
+                lista->dados[i].ano, lista->dados[i].quantidade);
+    }
+
+    fclose(arquivo);
+    return 1;
+}
+
+int carregarLivros(ListaLivros *lista) {
+    FILE *arquivo = fopen(ARQUIVO_LIVROS_TXT, "r");
+    if (arquivo == NULL) {
+        return 0;
+    }
+
+    char linha[400];
+    int lidos = 0;
+
+    while (fgets(linha, sizeof(linha), arquivo) != NULL) {
+        Livro l;
+        memset(&l, 0, sizeof(l));
+
+        if (sscanf(linha, "%d;%99[^;];%99[^;];%d;%d",
+                   &l.codigo, l.titulo, l.autor, &l.ano, &l.quantidade) == 5) {
+            if (adicionarLivro(lista, l) == 1) {
+                lidos++;
+            }
+        }
+    }
+
+    fclose(arquivo);
+    return lidos;
+}
