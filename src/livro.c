@@ -123,3 +123,52 @@ int buscarLivroPorCodigo(const ListaLivros *lista, int codigo) {
     }
     return -1;
 }
+void buscarLivro(ListaLivros *lista) {
+    if (lista->total == 0) {
+        printf("\nNenhum livro cadastrado.\n");
+        return;
+    }
+
+    printf("\n=== BUSCAR LIVRO ===\n");
+    printf("1 - Por titulo (parcial, sequencial)\n");
+    printf("2 - Por autor (parcial, sequencial)\n");
+    printf("3 - Por codigo (sequencial)\n");
+    printf("0 - Voltar\n");
+
+    int opcao = lerInteiro("Escolha: ", 0, 3);
+    if (opcao == 0) {
+        return;
+    }
+
+    char texto[TAM_TEXTO];
+    int encontrados = 0;
+
+    if (opcao == 1 || opcao == 2) {
+        lerTexto(opcao == 1 ? "Titulo (ou parte dele): " : "Autor (ou parte dele): ",
+                 texto, TAM_TEXTO);
+
+        for (int i = 0; i < lista->total; i++) {
+            const char *campo = (opcao == 1) ? lista->dados[i].titulo : lista->dados[i].autor;
+            if (contemTexto(campo, texto)) {
+                if (encontrados == 0) {
+                    imprimirCabecalho();
+                }
+                imprimirLivro(&lista->dados[i]);
+                encontrados++;
+            }
+        }
+    } else {
+        int codigo = lerInteiro("Codigo: ", 1, 2000000000);
+        int indice = buscarLivroPorCodigo(lista, codigo);
+
+        if (indice != -1) {
+            imprimirCabecalho();
+            imprimirLivro(&lista->dados[indice]);
+            encontrados = 1;
+        }
+    }
+
+    if (encontrados == 0) {
+        printf("\nNenhum livro encontrado.\n");
+    }
+}
