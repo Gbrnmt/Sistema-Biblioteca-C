@@ -52,3 +52,34 @@ int adicionarLivro(ListaLivros *lista, Livro novo) {
     lista->ordenadoPor = ORDEM_NENHUMA;   // a ordem pode ter se perdido
     return 1;
 }
+
+// ---------------------------------------------------------------
+// Cadastro e listagem
+// ---------------------------------------------------------------
+
+void cadastrarLivro(ListaLivros *lista) {
+    Livro novo;
+    memset(&novo, 0, sizeof(novo));
+
+    printf("\n=== CADASTRAR LIVRO ===\n");
+
+    novo.codigo = lerInteiro("Codigo: ", 1, 2000000000);
+    if (buscarLivroPorCodigo(lista, novo.codigo) != -1) {
+        printf("\nEsse codigo ja existe!\n");
+        return;
+    }
+
+    lerTexto("Titulo: ", novo.titulo, TAM_TEXTO);
+    lerTexto("Autor: ", novo.autor, TAM_TEXTO);
+    novo.ano = lerInteiro("Ano: ", 1, 2100);
+    novo.quantidade = lerInteiro("Quantidade: ", 0, 100000);
+
+    int resultado = adicionarLivro(lista, novo);
+    if (resultado == 1) {
+        printf("\nLivro cadastrado com sucesso!\n");
+    } else if (resultado == 0) {
+        printf("\nEsse codigo ja existe!\n");
+    } else {
+        printf("\nErro: sem memoria para cadastrar o livro.\n");
+    }
+}
