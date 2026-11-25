@@ -83,3 +83,30 @@ void cadastrarLivro(ListaLivros *lista) {
         printf("\nErro: sem memoria para cadastrar o livro.\n");
     }
 }
+// ---------------------------------------------------------------
+// Impressao (tabela)
+// ---------------------------------------------------------------
+
+static void imprimirCabecalho(void) {
+    printf("\n%-10s %-30s %-22s %-5s %s\n", "Codigo", "Titulo", "Autor", "Ano", "Qtd");
+    printf("------------------------------------------------------------------------------\n");
+}
+
+static void imprimirLivro(const Livro *l) {
+    printf("%-10d %-30.30s %-22.22s %-5d %d\n",
+           l->codigo, l->titulo, l->autor, l->ano, l->quantidade);
+}
+
+void listarLivros(const ListaLivros *lista) {
+    if (lista->total == 0) {
+        printf("\nNenhum livro cadastrado.\n");
+        return;
+    }
+
+    printf("\n=== LIVROS CADASTRADOS ===\n");
+    imprimirCabecalho();
+    for (int i = 0; i < lista->total; i++) {
+        imprimirLivro(&lista->dados[i]);
+    }
+    printf("\nTotal: %d livro(s)\n", lista->total);
+}
