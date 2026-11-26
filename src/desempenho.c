@@ -45,6 +45,7 @@ static void gerarLivros(Livro *v, int n) {
         v[i].quantidade = 1;
     }
 }
+
 // Tempo (ms) de ordenar uma COPIA do vetor por titulo
 static double medirOrdenacao(const Livro *original, int n, MetodoOrdenacao metodo) {
     Livro *copia = malloc(n * sizeof(Livro));
@@ -60,6 +61,7 @@ static double medirOrdenacao(const Livro *original, int n, MetodoOrdenacao metod
     free(copia);
     return ms;
 }
+
 // Tempo medio (microssegundos) de UMA busca por codigo: sequencial x binaria.
 // Repete as buscas ate passar TEMPO_MINIMO_BUSCA para o relogio conseguir medir.
 static int medirBuscas(const Livro *original, int n, double *seqUs, double *binUs) {
@@ -114,10 +116,13 @@ static int medirBuscas(const Livro *original, int n, double *seqUs, double *binU
     } while (segundos < TEMPO_MINIMO_BUSCA);
     *binUs = segundos * 1e6 / ((double)repeticoes * NUM_BUSCAS);
 
+    (void)soma;   // usa a variavel (evita o aviso do compilador)
+
     free(desordenado);
     free(ordenado);
     return 1;
 }
+
 // Escreve o relatorio em "saida" (stdout ou arquivo)
 static void imprimirRelatorio(FILE *saida, double tempos[][NUM_METODOS],
                               double seq[], double bin[]) {
