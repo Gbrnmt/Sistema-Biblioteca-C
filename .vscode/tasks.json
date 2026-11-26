@@ -5,29 +5,6 @@
             "label": "Compilar Biblioteca",
             "command": "C:\\msys64\\ucrt64\\bin\\gcc.exe",
             "args": [
-                "src/main.c",
-                "src/livro.c",
-                "src/usuario.c",
-                "-Iinclude",
-                "-o",
-                "biblioteca.exe"
-            ],
-            "options": {
-                "cwd": "${workspaceFolder}"
-            },
-            "problemMatcher": [
-                "$gcc"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": false
-            }
-        },
-        {
-            "type": "cppbuild",
-            "label": "C/C++: cl.exe arquivo de build ativo",
-            "command": "cl.exe",
-            "args": [
                 "-Wall", "-Wextra", "-Iinclude",
                 "src/main.c", "src/utils.c", "src/datas.c", "src/livro.c",
                 "src/ordenacao.c", "src/busca.c", "src/desempenho.c",
@@ -35,16 +12,13 @@
                 "-o", "biblioteca.exe"
             ],
             "options": {
-                "cwd": "${fileDirname}"
+                "cwd": "${workspaceFolder}"
             },
-            "problemMatcher": [
-                "$msCompile"
-            ],
+            "problemMatcher": ["$gcc"],
             "group": {
                 "kind": "build",
                 "isDefault": true
-            },
-            "detail": "Tarefa gerada pelo Depurador."
+            }
         }
     ],
     "version": "2.0.0"

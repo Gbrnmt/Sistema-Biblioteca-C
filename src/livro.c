@@ -256,3 +256,16 @@ int carregarLivros(ListaLivros *lista) {
     fclose(arquivo);
     return lidos;
 }
+// ---------------------------------------------------------------
+// Busca
+// ---------------------------------------------------------------
+
+// Busca sequencial por codigo
+int buscarLivroPorCodigo(const ListaLivros *lista, int codigo) {
+    for (int i = 0; i < lista->total; i++) {
+        if (lista->dados[i].codigo == codigo) {
+            return i;
+        }
+    }
+    return -1;
+}
