@@ -3,7 +3,7 @@
 Sistema de Gerenciamento de uma Biblioteca Universitária.
 Projeto da disciplina **Programação Estruturada** — Prof. Monique Soares.
 
-Equipe: Gabriel e Ian *(coloquem os nomes completos)*
+Equipe: Gabriel Nepomuceno de Araújo manta, Ian da costa pereira
 
 Feito em **C puro**, usando **somente a biblioteca padrão** (`stdio`, `stdlib`, `string`, `ctype`, `time`).
 Toda a lógica de busca e ordenação foi implementada do zero (nada de `strstr`, `bsearch` ou `qsort`).
