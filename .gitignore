@@ -1,0 +1,8 @@
+*.exe
+*.obj
+*.o
+*.pdb
+*.ilk
+biblioteca
+dados/*.bin
+dados/relatorio_desempenho.txt
